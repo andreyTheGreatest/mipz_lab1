@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String... args) throws IOException {
-        List<List<String>> countryStrings = Parser.parseFile("C:\\Users\\shevdid\\Desktop\\KPI\\mipz\\lab1\\src\\main\\resources\\inputFile");
+        List<List<String>> countryStrings = Parser.parseFile("src\\main\\resources\\inputFile");
         for (int i = 0; i < countryStrings.size(); i++) {
             System.out.println("Case Number " + (i + 1));
             processCase(countryStrings.get(i));

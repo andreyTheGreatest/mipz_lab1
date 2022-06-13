@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Country {
-    private List<City> cities;
-    private String name;
-    private CountryCoords coords;
+    private final List<City> cities;
+    private final String name;
+    private final CountryCoords coords;
     public static int MIN_COORD = 1;
     public static int MAX_COORD = 10;
     public static int NAME_MAX_LENGTH = 25;
 
     public Country(String name, CountryCoords coords) {
-        if (!coordsAreValid(coords)) {
+        if (!areCoordsValid(coords)) {
             throw new IllegalArgumentException("Coordinates are invalid! " + coords.toString());
         }
         if (name.length() > NAME_MAX_LENGTH) {
@@ -27,7 +27,8 @@ public class Country {
         this.coords = coords;
     }
 
-    public static boolean coordsAreValid(CountryCoords coords) {
+    // refactoring function name according to naming convention
+    public static boolean areCoordsValid(CountryCoords coords) {
         Predicate<Integer> inBounds = coord -> (coord >= MIN_COORD) && (coord <= MAX_COORD);
         return Stream.of(coords.getXl(), coords.getXh(), coords.getYh(), coords.getYl()).allMatch(inBounds)
                 && coords.getXl() <= coords.getXh()

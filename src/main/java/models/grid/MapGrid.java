@@ -38,7 +38,7 @@ public class MapGrid {
     public void addNeighboursToCities() {
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
-                City city = countriesGrid.get(new Coords(x, y));
+                City city = countriesGrid.get(new Grid.Coords(x, y));
                 if (city == null) continue;
                 List<City> neighbours = new ArrayList<>();
                 if (x < maxX) newNeighbour(x + 1, y, neighbours);
@@ -56,14 +56,14 @@ public class MapGrid {
     }
 
     private void newNeighbour(int x, int y, List<City> neighbours) {
-        City neighbour = countriesGrid.get(new Coords(x, y));
+        City neighbour = countriesGrid.get(new Grid.Coords(x, y));
         if (neighbour != null)
             neighbours.add(neighbour);
     }
 
     public Map<String, Integer> startDiffusion() {
         countriesGrid = new Grid();
-        Map<String, Integer> res = new HashMap<>();
+        Map<String, Integer> res = new TreeMap<>();
         int currDay = 0;
 
         do {
@@ -88,9 +88,26 @@ public class MapGrid {
         return res;
     }
 
+    private static HashMap<String, Integer> sortByValue(Map<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list = new LinkedList<>(hm.entrySet());
+
+        // Sort the list
+        list.sort(Map.Entry.comparingByValue());
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+
     public static String diffusionToString(Map<String, Integer> diffusion) {
         List<String> results = new ArrayList<>();
-        diffusion.forEach((key, value) -> results.add((key) + " " + value.toString()));
+        Map<String, Integer> diffusionSorted = sortByValue(diffusion);
+        diffusionSorted.forEach((key, value) -> results.add((key) + " " + value.toString()));
         return String.join("\n", results);
     }
 
@@ -100,7 +117,7 @@ public class MapGrid {
             for (int x = country.getCoords().getXl(); x <= country.getCoords().getXh(); x++) {
                 for (int y = country.getCoords().getYl(); y <= country.getCoords().getYh(); y++) {
                     City city = new City(coinTypes, country.getName());
-                    countriesGrid.set(new Coords(x, y), city);
+                    countriesGrid.set(new Grid.Coords(x, y), city);
                     country.addCity(city);
                 }
             }

@@ -3,10 +3,10 @@ package models;
 import java.util.List;
 
 public class CountryCoords {
-    private int xl ;
-    private int yl ;
-    private int xh ;
-    private int yh ;
+    private final int xl ;
+    private final int yl ;
+    private final int xh ;
+    private final int yh ;
 
     public CountryCoords(List<Integer> coords) {
         this.xl = coords.get(0);
@@ -23,31 +23,15 @@ public class CountryCoords {
         return xl;
     }
 
-    public void setXl(int xl) {
-        this.xl = xl;
-    }
-
     public int getYl() {
         return yl;
-    }
-
-    public void setYl(int yl) {
-        this.yl = yl;
     }
 
     public int getXh() {
         return xh;
     }
 
-    public void setXh(int xh) {
-        this.xh = xh;
-    }
-
     public int getYh() {
         return yh;
-    }
-
-    public void setYh(int yh) {
-        this.yh = yh;
     }
 }

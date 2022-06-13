@@ -3,16 +3,17 @@ package models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class City {
-    private String countryName;
-    private List<String> coinTypes;
+    private final String countryName;
+    private final List<String> coinTypes;
     private List<City> neighbours;
-    private List<Long> coins;
-    private List<Long> cache;
-    private Long portion;
+    private final List<Long> coins;
+    private final List<Long> cache;
+    private final Long portion;
+    private final long INIT_COINS = 1_000_000L;
+    private final long REPRESENTATIVE_PORTION_PER_COIN = 1_000L;
+
 
     public City(List<String> coinTypes, String countryName) {
         this.coinTypes = coinTypes;
@@ -24,9 +25,9 @@ public class City {
 
         int countryIndex = coinTypes.indexOf(countryName);
 
-        long INIT_COINS = 1_000_000L;
+
         this.coins.set(countryIndex, INIT_COINS);
-        this.portion = INIT_COINS / 1000;
+        this.portion = INIT_COINS / REPRESENTATIVE_PORTION_PER_COIN;
     }
 
     public boolean isCompleted() {
@@ -51,51 +52,11 @@ public class City {
         }
     }
 
-    public List<City> getNeighbours() {
-        return neighbours;
-    }
-
-    public Long getPortion() {
-        return portion;
-    }
-
-    public List<Long> getCache() {
-        return cache;
-    }
-
-    public List<Long> getCoins() {
-        return coins;
-    }
-
     public String getCountryName() {
         return countryName;
     }
 
-    public List<String> getCoinTypes() {
-        return coinTypes;
-    }
-
-    public void setCache(List<Long> cache) {
-        this.cache = cache;
-    }
-
-    public void setCoins(List<Long> coins) {
-        this.coins = coins;
-    }
-
-    public void setCoinTypes(List<String> coinTypes) {
-        this.coinTypes = coinTypes;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
-    }
-
     public void setNeighbours(List<City> neighbours) {
         this.neighbours = neighbours;
-    }
-
-    public void setPortion(Long portion) {
-        this.portion = portion;
     }
 }
