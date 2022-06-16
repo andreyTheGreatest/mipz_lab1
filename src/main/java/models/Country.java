@@ -44,7 +44,7 @@ public class Country {
     }
 
     public static Country parseCountry(String country) {
-        List<String> args = new ArrayList(Arrays.asList(country.split(" ")));
+        List<String> args = new ArrayList<>(Arrays.asList(country.split(" ")));
         String name = args.remove(0);
         CountryCoords coords = new CountryCoords(args.stream().map(Integer::parseInt).collect(Collectors.toList()));
         return new Country(name, coords);

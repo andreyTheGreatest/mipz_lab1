@@ -76,6 +76,7 @@ public class MapGrid {
             });
             countries.forEach(country -> country.getCities().forEach(City::updateCoins));
             currDay++;
+
         } while(!isCompleted());
 
         int finalCurrDay1 = currDay;
@@ -117,6 +118,10 @@ public class MapGrid {
             for (int x = country.getCoords().getXl(); x <= country.getCoords().getXh(); x++) {
                 for (int y = country.getCoords().getYl(); y <= country.getCoords().getYh(); y++) {
                     City city = new City(coinTypes, country.getName());
+                    City exists;
+                    if ((exists = countriesGrid.get(new Grid.Coords(x, y))) != null) {
+                        throw new Error("Countries " + country.getName() + " and " + exists.getCountryName() + " overlap! Aborting...");
+                    }
                     countriesGrid.set(new Grid.Coords(x, y), city);
                     country.addCity(city);
                 }
