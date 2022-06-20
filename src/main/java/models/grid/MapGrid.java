@@ -22,10 +22,10 @@ public class MapGrid {
         minY = 0;
 
         countries.forEach(c -> {
-            minX = Math.min(minX, c.getCoords().getXl());
-            minY = Math.min(minY, c.getCoords().getYl());
-            maxX = Math.max(maxX, c.getCoords().getXh());
-            maxY = Math.max(maxY, c.getCoords().getYh());
+            minX = Math.min(minX, c.getCoords().xl);
+            minY = Math.min(minY, c.getCoords().yl);
+            maxX = Math.max(maxX, c.getCoords().xh);
+            maxY = Math.max(maxY, c.getCoords().yh);
         });
         addCitiesToCountries();
         addNeighboursToCities();
@@ -89,7 +89,7 @@ public class MapGrid {
         return res;
     }
 
-    private static HashMap<String, Integer> sortByValue(Map<String, Integer> hm)
+    private static List<Map.Entry<String, Integer>> sortByValue(Map<String, Integer> hm)
     {
         // Create a list from elements of HashMap
         List<Map.Entry<String, Integer> > list = new LinkedList<>(hm.entrySet());
@@ -97,26 +97,20 @@ public class MapGrid {
         // Sort the list
         list.sort(Map.Entry.comparingByValue());
 
-        // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
+        return list;
     }
 
     public static String diffusionToString(Map<String, Integer> diffusion) {
-        List<String> results = new ArrayList<>();
-        Map<String, Integer> diffusionSorted = sortByValue(diffusion);
-        diffusionSorted.forEach((key, value) -> results.add((key) + " " + value.toString()));
-        return String.join("\n", results);
+        List<Map.Entry<String, Integer>> listMap = sortByValue(diffusion);
+        List<String> list = listMap.stream().map(val -> val.getKey() + " " + val.getValue()).toList();
+        return String.join("\n", list);
     }
 
     public void addCitiesToCountries() {
         List<String> coinTypes = countries.stream().map(Country::getName).toList();
         for (Country country : countries) {
-            for (int x = country.getCoords().getXl(); x <= country.getCoords().getXh(); x++) {
-                for (int y = country.getCoords().getYl(); y <= country.getCoords().getYh(); y++) {
+            for (int x = country.getCoords().xl; x <= country.getCoords().xh; x++) {
+                for (int y = country.getCoords().yl; y <= country.getCoords().yh; y++) {
                     City city = new City(coinTypes, country.getName());
                     City exists;
                     if ((exists = countriesGrid.get(new Grid.Coords(x, y))) != null) {

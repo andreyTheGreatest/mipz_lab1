@@ -30,9 +30,9 @@ public class Country {
     // refactoring function name according to naming convention
     public static boolean areCoordsValid(CountryCoords coords) {
         Predicate<Integer> inBounds = coord -> (coord >= MIN_COORD) && (coord <= MAX_COORD);
-        return Stream.of(coords.getXl(), coords.getXh(), coords.getYh(), coords.getYl()).allMatch(inBounds)
-                && coords.getXl() <= coords.getXh()
-                && coords.getYl() <= coords.getYh();
+        return Stream.of(coords.xl, coords.xh, coords.yh, coords.yl).allMatch(inBounds)
+                && coords.xl <= coords.xh
+                && coords.yl <= coords.yh;
     }
 
     public void addCity(City city) {
